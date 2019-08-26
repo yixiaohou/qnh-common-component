@@ -1,0 +1,64 @@
+<nz-table [nzData]="_datas" nzShowPagination=false [nzLoading]="_loading" nzBordered [nzWidthConfig]="widthConfig">
+  <thead (nzSortChange)="_sort($event)" nzSingleSort=true *ngIf="!tableHeader">
+    <tr>
+      <th *ngIf="showCheckBox" [nzShowCheckbox]="showCheckBox" [(nzChecked)]="_allchecked"
+        [nzIndeterminate]="_indeterminate" (nzCheckedChange)="_checkall()" nzWidth="5%"></th>
+      <th *ngIf="showRowNo" nzWidth="5%" >
+        序号
+      </th>
+      <ng-container *ngFor="let item of collumns">
+        <ng-container *ngIf='item.notice'>
+          <th *ngIf="item.show" [nzShowSort]="item.sort" [nzSortKey]="item.code" nzWidth="{{item.width}}%" nz-tooltip
+            [nzTitle]="item.notice" >
+            {{item.name}}
+            <i nz-icon type="question-circle" theme="outline"></i>
+          </th>
+        </ng-container>
+        <ng-container *ngIf='!item.notice'>
+          <th *ngIf="item.show" [nzShowSort]="item.sort" [nzSortKey]="item.code" nzWidth="{{item.width}}%" >
+            {{item.name}}
+          </th>
+        </ng-container>
+      </ng-container>
+    </tr>
+  </thead>
+  <thead *ngIf="tableHeader">
+    <tr *ngFor="let list of tableHeader">
+      <ng-container *ngFor="let item of list">
+        <th [attr.colspan]='item.colspan' [attr.rowspan]='item.rowspan'>
+          {{item.name}}
+          <i *ngIf='item.notice' nz-icon type="question-circle" theme="outline" nz-tooltip [nzTitle]="item.notice"></i>
+        </th>
+      </ng-container>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of _datas;let i=index" style="cursor:pointer;">
+      <td *ngIf="showCheckBox" nzShowCheckbox [(nzChecked)]="data._checked" (nzCheckedChange)="_checkStatusChange()">
+      </td>
+      <td *ngIf="showRowNo">
+        {{params.rowno + i + 1}}
+      </td>
+      <ng-container *ngFor="let item of collumns">
+        <td *ngIf="item.show===false?false:true" [ngStyle]="item.style">
+          <ng-container *ngIf="item.template">
+             <ng-container *ngTemplateOutlet="item.template;context: {data:[data[item.code],data]}"></ng-container>
+          </ng-container>
+          <ng-container *ngIf="!item.template&&item.transform">
+            <div [innerHTML]="item.transform(data[item.code],data) | html"></div>
+          </ng-container>
+          <ng-container *ngIf="!item.template&&!item.transform">
+            {{data[item.code]}}
+          </ng-container>
+        </td>
+      </ng-container>
+    </tr>
+  </tbody>
+</nz-table>
+
+<div class="zh-pages" *ngIf='showPagination'>
+  <nz-pagination [(nzPageIndex)]="params.page_no" [(nzTotal)]="params.count" nzShowSizeChanger nzShowQuickJumper
+    [(nzPageSize)]='params.page_size' [(nzPageSizeOptions)]="pagesizeoptions" [nzShowTotal]="totalTemplate"
+    (nzPageIndexChange)="_search()" (nzPageSizeChange)="_search()"></nz-pagination>
+  <ng-template #totalTemplate let-total>共{{params.count}}条信息</ng-template>
+</div>

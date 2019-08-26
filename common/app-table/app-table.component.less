@@ -1,0 +1,91 @@
+/*翻页样式*/
+.zh-pages {
+  padding: 3px 20px;
+  display: block;
+  position: fixed;
+  z-index: 100;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin-left: 200px;
+  background: #fafafa;
+  border-top: 1px solid #f1f1f1;
+}
+
+.zh-pages .zh-select {
+  width: 60px;
+  height: 30px;
+  line-height: 30px;
+  vertical-align: middle;
+  padding: 0;
+  text-align: center;
+}
+
+.zh-pages .zh-text {
+  width: 60px;
+  height: 30px;
+  line-height: 30px;
+  vertical-align: middle;
+  padding: 0;
+  text-align: center;
+}
+
+.zh-pages .zh-totpage {
+  margin-left: 20px;
+  vertical-align: middle;
+  line-height: 30px;
+}
+
+.zh-pages .zh-count {
+  vertical-align: middle;
+  line-height: 30px;
+  float: right;
+}
+
+select.form-control:not([size]):not([multiple]) {
+  height: 30px;
+}
+
+.modalpage {
+  padding: 3px;
+  display: block;
+  position: static;
+  z-index: 10000;
+  background: transparent !important;
+  border-top: none !important;
+  margin-left: 0;
+
+  .zh-select,
+  .zh-text {
+    width: 50px;
+    height: 24px;
+    border: 1px solid #d9d9d9;
+    color: #333;
+    line-height: 24px;
+    vertical-align: middle;
+    padding: 0;
+    text-align: center;
+  }
+
+  .zh-totpage {
+    margin-left: 15px;
+    float: left;
+    vertical-align: top;
+    line-height: 24px;
+    display: inline-block;
+  }
+
+  .zh-count {
+    vertical-align: middle;
+    line-height: 24px;
+    float: right;
+  }
+
+  select.form-control:not([size]):not([multiple]) {
+    height: 24px;
+  }
+
+  .btn {
+    padding: 3px;
+  }
+}

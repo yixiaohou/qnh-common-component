@@ -1,0 +1,102 @@
+.search-box {
+  position: relative;
+
+  .search-bar-left>div>div>div {
+    padding-bottom: 7px;
+    height: 39px;
+  }
+
+  label {
+    text-align: right;
+    display: inline-block;
+    width: 100px;
+    padding-right: 15px;
+
+    &+.ant-radio-wrapper {
+      text-align: left;
+    }
+  }
+
+  .check-list {
+    text-align: center;
+
+    div {
+      display: inline-block;
+    }
+  }
+
+  .checkbox label {
+    width: 150px;
+  }
+
+  input {
+    width: calc(100% - 120px)
+  }
+
+  nz-select {
+    width: calc(100% - 120px)
+  }
+
+  .double-select {
+    nz-select {
+      width: calc(50% - 65px);
+
+      &:last-child {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  .double-input {
+    input {
+      width: calc(50% - 65px);
+
+      &:last-child {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  .select-check {
+    nz-select {
+      width: calc(50% - 65px);
+
+      &:last-child {
+        margin-left: 5px;
+      }
+    }
+
+    label:last-child {
+      width: calc(50% - 65px);
+      padding-right: 0;
+    }
+  }
+
+  .radio {
+    height: 38px;
+    line-height: 38px;
+  }
+
+  nz-range-picker {
+    width: calc(100% - 120px);
+  }
+}
+
+.date-btn-group {
+  width: 200px;
+  float: right;
+  height: 32px;
+  line-height: 32px;
+}
+
+:host /deep/ nz-picker {
+  width: 100%;
+
+  .date-picker {
+    width: 100%;
+  }
+}
+
+.close {
+  color: #1890ff;
+}

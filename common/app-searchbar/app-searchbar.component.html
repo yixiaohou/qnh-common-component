@@ -1,0 +1,161 @@
+<div class="zh-serchbox">
+  <div nz-row class="search-box">
+    <div nz-col nzLg="20" nzXl="20" class="search-bar-left">
+      <div nz-row>
+        <div *ngFor="let option of queryList">
+          <div *ngIf="option.show?option.type==0:false" nz-col nzSpan="{{option.width?option.width:'8'}}"
+            [hidden]="option.hidden">
+            <label>
+              <span *ngIf="option.importent" style="color:red">*</span>
+              {{option.label}}
+            </label>
+            <input nz-input placeholder="请输入{{option.label}}" [(ngModel)]="option.valueKey">
+          </div>
+
+          <div *ngIf="option.type==1" [hidden]="!option.show" nz-col nzSpan="{{option.width?option.width:'8'}}">
+            <label>
+              <span *ngIf="option.importent" style="color:red">*</span>
+              {{option.label}}
+            </label>
+            <ng-container *ngIf="option.dataSource && (option.dataSource | async) as list">
+              {{changeInitDefault?changeInitValue(option,list):null}}
+              <nz-select name="option.name" [nzShowSearch]='option.search' [nzDropdownStyle]="{'min-width':'150px'}"
+                [(ngModel)]="option.valueKey" [nzDropdownMatchSelectWidth]="'false'">
+                <nz-option *ngFor="let item of list" [nzValue]="item[option.optionCode]"
+                  [nzLabel]="item[option.optionLabel]">
+                </nz-option>
+              </nz-select>
+            </ng-container>
+            <ng-container *ngIf="option.initList">
+              <nz-select name="option.name" [nzShowSearch]='option.search' [nzDropdownStyle]="{'min-width':'150px'}"
+                [(ngModel)]="option.valueKey" [nzDropdownMatchSelectWidth]="'false'">
+                <nz-option *ngFor="let item of  option.initList" [nzValue]="item.code" [nzLabel]="item.name">
+                </nz-option>
+              </nz-select>
+            </ng-container>
+
+          </div>
+
+          <div *ngIf="option.type==2" class="double-select" nz-col nzSpan="{{option.width?option.width:'8'}}"
+            [hidden]="!option.show">
+            <label>
+              {{option.label}}
+            </label>
+            <nz-select [(ngModel)]="option.doubleSelectList[0].valueKey"
+              [nzShowSearch]='option.doubleSelectList[0].search'
+              (ngModelChange)="getSubOnlineCategories($event,option)">
+              <nz-option *ngFor="let item of (option.doubleSelectList[0].dataSource | async)?.data"
+                [nzValue]="item[option.doubleSelectList[0].optionCode]"
+                [nzLabel]="item[option.doubleSelectList[0].optionLabel]"></nz-option>
+            </nz-select>
+            <span *ngIf='option.doubleSelectList[1].label'>{{option.doubleSelectList[1].label}}</span>
+            <span *ngIf="!option.doubleSelectList[1].label">-</span>
+
+            <nz-select [(ngModel)]="option.doubleSelectList[1].valueKey"
+              [nzShowSearch]='option.doubleSelectList[1].search'
+              [ngStyle]="{'width': option.doubleSelectList[1].label?'calc(50% - 80px)':'calc(50% - 50px)'}">
+              <nz-option *ngFor="let item of option.doubleSelectList[1].list"
+                [nzValue]="item[option.doubleSelectList[1].optionCode]"
+                [nzLabel]="item[option.doubleSelectList[1].optionLabel]"></nz-option>
+            </nz-select>
+          </div>
+
+          <div *ngIf="option.type==8" class="select-check" nz-col nzXs="12" nzSpan="{{option.width?option.width:'8'}}"
+            [hidden]="!option.show">
+            <label>{{option.selectCheckList[0].label}}</label>
+            <nz-select [(ngModel)]="option.selectCheckList[0].valueKey">
+              <nz-option *ngFor="let item of (option.selectCheckList[0].dataSource | async)?.data.rows"
+                [nzValue]="item[option.selectCheckList[0].optionCode]"
+                [nzLabel]="item[option.selectCheckList[0].optionLabel]"></nz-option>
+            </nz-select>
+            <label nz-checkbox [(ngModel)]="option.selectCheckList[1].code"
+              [nzDisabled]="!option.selectCheckList[0].valueKey[0]">
+              {{option.selectCheckList[1].label}}
+            </label>
+          </div>
+
+          <div *ngIf="option.show?option.type==4:false" class="double-input" nz-col nzXs="12"
+            nzSpan="{{option.width?option.width:'8'}}">
+            <label>{{option.label}}</label>
+            <input nz-input placeholder="￥" name="option.doubleInput[0]name"
+              [(ngModel)]="option.doubleInput[0].valueKey">
+            <span>-</span>
+            <input nz-input placeholder="￥" name="option.doubleInput[1]name"
+              [(ngModel)]="option.doubleInput[1].valueKey">
+          </div>
+
+          <div *ngIf="option.show?option.type==5:false" nz-col nzSpan="{{option.width?option.width:'8'}}">
+            <label>
+              <span *ngIf="option.importent" style="color:red">*</span>
+              {{option.label}}
+            </label>
+            <nz-date-picker style="width:calc(100% - 120px)" [(ngModel)]="option.valueKey" nzFormat="yyyy-MM-dd"
+              nzClassName='date-picker'></nz-date-picker>
+          </div>
+
+          <div *ngIf="option.show?option.type==6:false" nz-col nzSpan="{{option.width?option.width:'8'}}">
+            <label>
+              <span *ngIf="option.importent" style="color:red">*</span>
+              {{option.label}}
+            </label>
+            <nz-month-picker style="width:calc(100% - 120px)" [(ngModel)]="option.valueKey" nzFormat="YYYY-MM"
+              nzClassName='date-picker'>
+            </nz-month-picker>
+          </div>
+
+
+          <!-- 时间选择器 -->
+          <div *ngIf="option.show?option.type==3:false" class="double-input" nz-col nzXs="16"
+            nzSpan="{{option.width?option.width:'16'}}">
+            <label>{{option.label}}</label>
+
+            <nz-range-picker
+              [ngStyle]="{'width':ngContent.childElementCount==0?'calc(100% - 120px)':'calc(100% - 320px)'}"
+              [(ngModel)]="option.date" nzFormat="yyyy-MM-dd" nzClassName='date-picker'></nz-range-picker>
+
+            <div #ngContent class="date-btn-group">
+              <ng-content></ng-content>
+            </div>
+          </div>
+
+          <div *ngIf="option.show?option.type==7:false" class="radio" nz-col
+            nzSpan="{{option.width?option.width:'12'}}">
+            <label>{{option.label}}</label>
+            <nz-radio-group [(ngModel)]="option.valueKey">
+              <label *ngFor="let item of option.doubleInput" [nzValue]="item.valueKey" nz-radio>{{item.name}}</label>
+            </nz-radio-group>
+          </div>
+        </div>
+
+
+      </div>
+      <div nz-row class="check-list" *ngIf="!hidesearch">
+        <div *ngFor="let option of queryList">
+          <div *ngIf="option.show?option.type==9:false" class="checkbox">
+            <label [ngStyle]="{'width':option.width?option.width:'150px'}" nz-checkbox [(ngModel)]="option.valueKey"
+              (click)="search()">
+              {{option.label}}
+            </label>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div nz-col nzLg="4" nzXl="4" class="search-bar-right">
+      <nz-radio-group>
+        <button nz-button nzType="primary" (click)=search()>查询</button>
+        <button style="margin:0px 7px" nz-button nzType="default" (click)=reset()>重置</button>
+        <span *ngIf="inittogglesearch" (click)="togglesearch()" class="close">
+          {{closeText}}
+          <i *ngIf="hidesearch" aria-label="图标: down" class="anticon anticon-down"></i>
+          <i *ngIf="!hidesearch" aria-label="图标: down" class="anticon anticon-up"></i>
+
+        </span>
+      </nz-radio-group>
+
+    </div>
+
+  </div>
+
+
+</div>

@@ -1,0 +1,6 @@
+<div class="zh-pages">
+  <nz-pagination [(nzPageIndex)]="content.page_no" [(nzTotal)]="content.count" nzShowSizeChanger nzShowQuickJumper
+    [(nzPageSize)]='content.page_size' [(nzPageSizeOptions)]="pagesizeoptions" [nzShowTotal]="totalTemplate"
+    (nzPageIndexChange)="change()" (nzPageSizeChange)="change()"></nz-pagination>
+  <ng-template #totalTemplate let-total>共{{content.count}}条信息</ng-template>
+</div>

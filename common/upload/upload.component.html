@@ -1,0 +1,24 @@
+<nz-upload [nzMultiple]="'true'" [nzType]="nzuploadtype" [nzLimit]="'0'"
+  nzAction="http://images-m-glory.oss-cn-hangzhou.aliyuncs.com" [nzData]="additionParameter" [nzSize]="size"
+  [nzBeforeUpload]="before" [nzRemove]="remove" [(nzFileList)]="fileList" (nzChange)="handleChange($event)"
+  [nzShowUploadList]="showuploadlist">
+  <div *ngIf="uploadtype==='default'">
+    <p class="ant-upload-drag-icon">
+      <i nz-icon type="inbox"></i>
+    </p>
+    <p class="ant-upload-text">请点击或者拖拽文件到此区域</p>
+    <p class="ant-upload-hint">支持单个文件或多个文件上传</p>
+  </div>
+  <button nz-button *ngIf="uploadtype==='button'">
+    <i nz-icon type="upload"></i><span>{{uploadname}}</span>
+  </button>
+  <p *ngIf="uploadtype==='text'"> <i nz-icon type="upload"></i><span>{{uploadname}}</span></p>
+  <ng-container *ngIf="uploadtype==='picture'">
+    <i nz-icon type="plus"></i>
+    <div class="ant-upload-text">上传</div>
+  </ng-container>
+
+  <div *ngIf="uploadtype==='tmp'">
+    <ng-content></ng-content>
+  </div>
+</nz-upload>
